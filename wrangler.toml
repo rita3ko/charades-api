@@ -1,0 +1,11 @@
+name = "charades-api"
+type = "webpack"
+account_id = "75f4046a20169dc2ff68df64f8a7e2ab"
+workers_dev = true
+route = ""
+zone_id = ""
+
+kv-namespaces = [ 
+	 { binding = "GAMES", id = "10e4294130774c548b8c5861cf118369" },
+     { binding = "PHRASES", id = "4d3c9f8c6195471ebcdff952f7d1c68b" }
+]
