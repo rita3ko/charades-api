@@ -51,7 +51,7 @@ function generateGameId() {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < 15; i++ ) {
+    for ( var i = 0; i < 5; i++ ) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
@@ -65,6 +65,7 @@ async function createGame() {
     }
 
     let gameId = generateGameId()
+    console.log(gameId)
     await GAMES.put(gameId, "")
     let body = {
         'id': gameId
@@ -86,6 +87,8 @@ async function addPhrase(request) {
         'used': false,
         'phrase': phrase
     }
+    console.log(phrase)
+    console.log(phraseValue)
     phraseValue = JSON.stringify(phraseValue)
     let result = await PHRASES.put(phraseKey, phraseValue)
     return new Response('noiiiice!', init)
@@ -102,6 +105,7 @@ async function getPhrase(request) {
     // Get all possible phrases for the game
     let phrases = await PHRASES.list({"prefix": `${gameId}-`})
     phrases = phrases.keys
+    console.log(phrases)
     let numKeys = phrases.length
     if(numKeys == 0) {
         return new Response("Brainstorm and add some phrases to the game to get started! 💭", init)
