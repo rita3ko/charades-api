@@ -1,28 +1,80 @@
-## Router
+# Charades API
 
-Selects the logic to respond to requests based on the `request` method and URL. Can be used with REST APIs or apps that require basic routing logic.
+This is a simple API for managing a game of Charades using Cloudflare Workers and Hono.
 
-[`index.js`](https://github.com/cloudflare/worker-template-router/blob/master/router.js) is the content of the Workers script.
+## Setup
 
-Live Demos are hosted on `workers-tooling.cf/demos/router`:
-[Demo /bar](http://workers-tooling.cf/demos/router/bar) | [Demo /foo](http://workers-tooling.cf/demos/router/foo)
+1. Install dependencies:
+   ```
+   npm install
+   ```
 
-#### Wrangler
+2. Configure your Cloudflare account:
+   - Ensure you have a Cloudflare account and have set up Wrangler CLI.
+   - Run `wrangler login` if you haven't already authenticated.
 
-You can use [wrangler](https://github.com/cloudflare/wrangler) to generate a new Cloudflare Workers project based on this template by running the following command from your terminal:
+3. Create KV namespaces:
+   ```
+   wrangler kv:namespace create GAMES
+   wrangler kv:namespace create PHRASES
+   ```
+   Add the returned namespace IDs to your `wrangler.toml` file.
+
+## Development
+
+To run the development server:
+```
+npm run dev
+```
+
+This will start a local server, typically at `http://127.0.0.1:8787`.
+
+## Testing
+
+Run the test suite:
+```
+npm test
+```
+
+
+## Deployment
+
+To deploy to Cloudflare Workers:
 
 ```
-wrangler generate myApp https://github.com/cloudflare/worker-template-router
+npm run deploy
 ```
 
-Before publishing your code you need to edit `wrangler.toml` file and add your Cloudflare `account_id` - more information about publishing your code can be found [in the documentation](https://workers.cloudflare.com/docs/quickstart/configuring-and-publishing/).
 
-Once you are ready, you can publish your code by running the following command:
+## API Endpoints
+
+- `POST /games`: Create a new game
+- `GET /games/:gameId`: Get game information
+- `POST /games/:gameId/phrase`: Add a new phrase to the game
+- `GET /games/:gameId/phrase`: Get a random unused phrase from the game
+
+## Example Usage
+
+Create a new game:
+
+curl -X POST https://your-worker.your-subdomain.workers.dev/games
+
+
+Add a phrase to a game:
 
 ```
-wrangler publish
+curl -X POST https://your-worker.your-subdomain.workers.dev/games/[GAME_ID]/phrase -d "A new phrase"
 ```
 
-#### Serverless
 
-To deploy using serverless add a [`serverless.yml`](https://serverless.com/framework/docs/providers/cloudflare/) file.
+Get a random phrase:
+```
+curl https://your-worker.your-subdomain.workers.dev/games/[GAME_ID]/phrase
+```
+
+
+## Notes
+
+- Phrases are stored without the "phrase=" prefix. If sent with this prefix, it will be automatically stripped.
+- The API uses Cloudflare KV for storage. Ensure your Worker has the necessary KV bindings.
+
