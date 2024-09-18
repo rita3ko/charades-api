@@ -4,16 +4,16 @@
     "description": "package for creating workers templates",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "vitest",
         "format": "prettier --write '**/*.{js,css,json,md}'"
     },
     "author": "Rita Kozlov <rita@cloudflare.com>",
     "license": "ISC",
     "devDependencies": {
-        "prettier": "^1.17.0"
+        "prettier": "^1.17.0",
+        "vitest": "^2.1.1"
     },
     "dependencies": {
-        "serverless-cloudflare-workers": "^1.2.0",
-        "handlers": "0.0.0"
+        "hono": "^4.6.2"
     }
 }
